@@ -1,0 +1,42 @@
+{
+	"name": "ArduPilot Development",
+	"build": {
+		"dockerfile": "../Dockerfile",
+		"context": ".."
+	},
+	"workspaceFolder": "/ardupilot",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/ardupilot,type=bind",
+	"mounts": [
+		"source=${localWorkspaceFolder},target=/ardupilot,type=bind"
+	],
+	"remoteUser": "ardupilot",
+	"features": {},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-extension-pack",
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"twxs.cmake",
+				"ms-vscode.cmake-tools"
+			],
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"files.watcherExclude": {
+					"**/build/**": true,
+					"**/.waf*": true,
+					"**/c4che/**": true
+				}
+			}
+		}
+	},
+	"postCreateCommand": "git submodule update --init --recursive || true",
+	"postStartCommand": "source ~/.ardupilot_env 2>/dev/null || true",
+	"remoteEnv": {
+		"PATH": "${containerEnv:PATH}:${containerWorkspaceFolder}/Tools/autotest"
+	},
+	"runArgs": [
+		"--privileged"
+	]
+}
